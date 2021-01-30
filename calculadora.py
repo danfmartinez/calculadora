@@ -1,14 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-import matplotlib.pyplot as plt
+# -*- coding: utf-8 -*-
+"""
+@author: danfmartinez
+"""
 ################################      CALCULADORA            ####################
-###################
-# Igualar
-###################
-def igualar(y1,y2):                                             
+from tkinter import*
+import tkinter as tk
+"""
+Igualar
+"""
+def igualar(y1,y2) -> tuple:                                             
     y1=str(y1)
     y2=str(y2)
     while len(y1) != len(y2):
@@ -21,10 +21,11 @@ def igualar(y1,y2):
             y0 += y2
             y2 = y0
     return (y1,y2)
-##################
-# Complemento A1
-##################
-def comp1(y1):                             
+
+"""
+Complemento A1
+"""
+def comp1(y1) -> str:                             
     c = ''
     for i in range(len(y1)):
         if y1[i] == '0':
@@ -32,10 +33,11 @@ def comp1(y1):
         else:
             c += '0'
     return c
-#####################################
-# Funciones de binario a otro sistema 
-####################################
-def bina_a_decim(y): 
+"""
+Funciones de binario a otro sistema 
+"""
+# binario a decimal
+def bina_a_decim(y) -> int: 
     y=str(y)
     y1=0
     l=len(y)-1    
@@ -44,25 +46,89 @@ def bina_a_decim(y):
         l=l-1
     return y1
 
-def bin_a_oct(n):
+# binario a octal
+def bin_a_oct(n) -> int:
     n=str(n)
     dec=int(n,2)
     octa=oct(dec).split('o')[1]
     return (octa)
 
-def bin_a_hex(y1):
+# binario a hexa
+def bin_a_hex(y1) -> int:
     y1=str(y1)
     dec=int(y1,2)
     hexa=hex(dec).split('x')[1]
     return hexa
-    #print(hexa)
 
-#########################################
-# Funciones de operaciones entre binarios
-#########################################
+"""
+Funciones de otro sistema a binario
+"""
+# de decimal a binario
+def dec_a_bin (decimal: int) -> str:
+    binario=''
+    while decimal // 2 !=0:
+        binario=str(decimal % 2) + binario
+        decimal= decimal // 2
+    return str(decimal) + binario 
+
+# de octal a binario
+def octal_a_bin(octal: str) -> int:
+    dictoct2bin = {'0':'000','1':'001','2':'010','3':'011','4':'100','5':'101','6':'110','7':'111'}
+    Numbin = []
+    Num = str(octal)
+    Nlist = list(Num)
+    for i in Nlist:
+        Numbin.append(dictoct2bin[i])
+    if len(Numbin) != 1:
+        Nbb = ''
+        for i in range(0,len(Numbin)):
+            Nbb = Nbb+ Numbin[i]
+    else:
+        Nbb = str(Numbin[0])
+        
+    Numbin = list(Nbb)
+    for i in range(0,len(Numbin)):
+        Numbin[i] = int(Numbin[i])
+    binario=0
+    l=len(Numbin)-1    
+    for i in range(len(Numbin)):
+        binario += int(Numbin[i])*10**l
+        l=l-1
+    return binario
+
+#de hexa a binario
+def hex_a_bin(hexa: str) -> int:
+    dicthex2bin = {'0':'0000','1':'0001','2':'0010','3':'0011','4':'0100','5':'0101','6':'0110',
+                   '7':'0111','8':'1000','9':'1001','a':'1010','b':'1011','c':'1100',
+                   'd':'1101','e':'1110','f':'1111'}
+    Numbin = []
+    Num = str(hexa)
+    Nlist = list(Num)
+    for i in Nlist:
+        Numbin.append(dicthex2bin[i])
+    if len(Numbin) != 1:
+        Nbb = ''
+        for i in range(0,len(Numbin)):
+            Nbb = Nbb+ Numbin[i]
+    else:
+        Nbb = str(Numbin[0])
+        
+    Numbin = list(Nbb)
+    for i in range(0,len(Numbin)):
+        Numbin[i] = int(Numbin[i])
+    binario=0
+    l=len(Numbin)-1    
+    for i in range(len(Numbin)):
+        binario += int(Numbin[i])*10**l
+        l=l-1
+    return binario 
+   
+"""
+Funciones de operaciones entre binarios
+"""
 
 #Suma
-def sumbin(n,m):                          
+def sumbin(n,m) -> str:                          
     z1, z2 = igualar(n,m)
     c = ''
     n = '0'                                    
@@ -92,7 +158,7 @@ def sumbin(n,m):
     return c
 
 #Resta
-def restabin(a,b): 
+def restabin(a,b) -> str: 
     x=str(a)
     y=str(b)
     if len(x) > len(y):
@@ -133,7 +199,7 @@ def restabin(a,b):
             return r
         
 #Multiplicacon
-def mbin(z1,z2):
+def mbin(z1,z2) -> str:
     c = '0'
     while int(z2) != 0:
         c = sumbin(c,z1)
@@ -141,7 +207,7 @@ def mbin(z1,z2):
     return c
 
 #Division
-def dbinent(y1,y2):
+def dbinent(y1,y2) -> str:
     
     c='0'
     if int(y2) == 0:
@@ -156,199 +222,90 @@ def dbinent(y1,y2):
         pd = restabin(pd,y2)
         w = sumbin(w,'1')
     return (c,w)
-###################
-# Entradas
-###################
-import numpy as np
-#selecionar el sistema numerico de la primera entrada
-def entrada1(): #de decimal a binario
-    E1=selec.get()
-    if  E1==1:
-        def dec_a_bin (decimal):
-            binario=''
-            while decimal // 2 !=0:
-                binario=str(decimal % 2) + binario
-                decimal= decimal // 2
-            return str(decimal) + binario 
-        num= int(vartxt1.get())
-        varbin1.set(int(dec_a_bin (num))) #interfaz
 
-# Bin- esta entrada es en base 2 (binario) y se debe pasar a base 2 (binario)
-    elif E1==2:
-        x=list(vartxt1.get())
-        y1=0
-        l=len(x)-1    
-        for i in range(len(x)):
-            y1+=int(x[i])*10**l
-            l=l-1
-        #print(y1)
-        #a=str(x)
-        #print(a)
-        varbin1.set(int(y1)) #interfaz
-    
-# Oct- esta entrada es en base 8 (octal) y se debe pasar a base 2 (binario)
-    elif E1==3:
-        x= int(vartxt1.get())
-        dictoct2bin = {'0':'000','1':'001','2':'010','3':'011','4':'100','5':'101','6':'110','7':'111'}
-        Numbin = []
-        Num = str(x)
-        Nlist = list(Num)
-        for i in Nlist:
-            Numbin.append(dictoct2bin[i])
-        if len(Numbin) != 1:
-            Nbb = ''
-            for i in range(0,len(Numbin)):
-                Nbb = Nbb+ Numbin[i]
-        else:
-            Nbb = str(Numbin[0])
-        Numbin = list(Nbb)
-        for i in range(0,len(Numbin)):
-            Numbin[i] = int(Numbin[i])
-        y1=0
-        l=len(Numbin)-1    
-        for i in range(len(Numbin)):
-            y1+=int(Numbin[i])*10**l
-            l=l-1
-        #print(y1)
-        #print(Numbin)
-        varbin1.set(int(y1)) #interfaz 
-    
-# Hex- esta entrada es en base 16 (hexadecimal) y se debe pasar a base 2 (binario)
-    elif E1==4:
-        x= str(vartxt1.get())
-        dicthex2bin = {'0':'0000','1':'0001','2':'0010','3':'0011','4':'0100','5':'0101','6':'0110',
-                       '7':'0111','8':'1000','9':'1001','a':'1010','b':'1011','c':'1100','d':'1101','e':'1110','f':'1111'}
-        Numbin = []
-        Num = str(x)
-        Nlist = list(Num)
-        for i in Nlist:
-            Numbin.append(dicthex2bin[i])
-        if len(Numbin) != 1:
-            Nbb = ''
-            for i in range(0,len(Numbin)):
-                Nbb = Nbb+ Numbin[i]
-        else:
-            Nbb = str(Numbin[0])
-        Numbin = list(Nbb)
-        for i in range(0,len(Numbin)):
-            Numbin[i] = int(Numbin[i])
-        y1=0
-        l=len(Numbin)-1    
-        for i in range(len(Numbin)):
-            y1+=int(Numbin[i])*10**l
-            l=l-1
-        #print(y1)
-        #print(Numbin)
-        varbin1.set(int(y1))
-################################################################################################
-#selecionar el sistema numerico de la segunda entrada
-def entrada2(): #de decimal a binario
-    E2=selec2.get()
-    if  E2==1:
-        def bin_a_dec (decimal):
-            binario=''
-            while decimal // 2 !=0:
-                binario=str(decimal % 2) + binario
-                decimal= decimal // 2
-            return str(decimal) + binario 
-        
-        num = int(vartxt2.get())
-        #print(binarizar(numero))
-        varbin2.set(int(bin_a_dec (num)))
+"""
+Entradas y salidas de la interfaz
+"""
 
-# Bin- esta entrada es en base 2 (binario) y se debe pasar a base 2 (binario)
-    elif E2==2:
-        x=list(vartxt2.get())
-        y2=0
-        l=len(x)-1    
-        for i in range(len(x)):
-            y2+=int(x[i])*10**l
-            l=l-1
-        #print(y2)
-        #a=str(x)
-        #print(a)
-        varbin2.set(int(y2))
+maximo =  11000011010100000 # numero maximo soportado (cien mil) en binario
+def entrada1():
+    E1 = selec.get()
+    num1 = vartxt1.get()
+    convertido = 0
+    if E1 == 1: # decimal a binario
+        convertido = int(dec_a_bin( int (num1) ))
     
-# Oct- esta entrada es en base 8 (octal) y se debe pasar a base 2 (binario)
-    elif E2==3:
-        x= int(vartxt2.get())
-        dictoct2bin = {'0':'000','1':'001','2':'010','3':'011','4':'100','5':'101','6':'110','7':'111'}
-        Numbin = []
-        Num = str(x)
-        Nlist = list(Num)
-        for i in Nlist:
-            Numbin.append(dictoct2bin[i])
-        if len(Numbin) != 1:
-            Nbb = ''
-            for i in range(0,len(Numbin)):
-                Nbb = Nbb+ Numbin[i]
-        else:
-            Nbb = str(Numbin[0])
-        Numbin = list(Nbb)
-        for i in range(0,len(Numbin)):
-            Numbin[i] = int(Numbin[i])
-        y2=0
-        l=len(Numbin)-1    
-        for i in range(len(Numbin)):
-            y2+=int(Numbin[i])*10**l
-            l=l-1
-        #print(y2)
-        #print(Numbin)
-        varbin2.set(int(y2))
+    if E1 == 2: # binario a binario
+        convertido = num1   
     
-# Hex- esta entrada es en base 16 (hexadecimal) y se debe pasar a base 2 (binario)
-    elif E2==4:
-        x= str(vartxt2.get())
-        dicthex2bin = {'0':'0000','1':'0001','2':'0010','3':'0011','4':'0100','5':'0101','6':'0110',
-                       '7':'0111','8':'1000','9':'1001','a':'1010','b':'1011','c':'1100','d':'1101','e':'1110','f':'1111'}
-        Numbin = []
-        Num = str(x)
-        Nlist = list(Num)
-        for i in Nlist:
-            Numbin.append(dicthex2bin[i])
-        if len(Numbin) != 1:
-            Nbb = ''
-            for i in range(0,len(Numbin)):
-                Nbb = Nbb+ Numbin[i]
-        else:
-            Nbb = str(Numbin[0])
-        Numbin = list(Nbb)
-        for i in range(0,len(Numbin)):
-            Numbin[i] = int(Numbin[i])
-        y2=0
-        l=len(Numbin)-1    
-        for i in range(len(Numbin)):
-            y2+=int(Numbin[i])*10**l
-            l=l-1
-        #print(y2)
-        #print(Numbin)
-        varbin2.set(int(y2))
+    if E1 == 3: # octal a binario
+        convertido = octal_a_bin(num1)
+    
+    if E1 == 4: # hexadecimal binario
+        convertido = hex_a_bin(num1)
+    
+    if convertido < maximo:
+        varbin1.set(convertido)
+    else:
+        varbin1.set("ERROR")    
 
-###################
-## operaciones
-##################
+def entrada2():
+    E2 = selec.get()
+    num2= vartxt2.get()
+    convertido2 = 0
+    if E2 == 1: # decimal a binario
+        convertido2 = int(dec_a_bin(int (num2) ))
+    
+    if E2 == 2: # binario a binario
+        convertido2 = num2   
+    
+    if E2 == 3: # octal a binario
+        convertido2 = octal_a_bin(num2)
+    
+    if E2 == 4: # hexadecimal binario
+        convertido2 = hex_a_bin(num2)
 
+    if convertido2 < maximo:
+        varbin2.set(convertido2)
+    else:
+        varbin2.set("ERROR")
+
+"""
+operaciones
+"""
 def sumar():
-    varres.set(str(sumbin(varbin1.get(),varbin2.get())))
-    conver.set('')
-    conver2.set('')
-    varres2.set('')
+    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+        varres.set("ERROR")
+    else :    
+        varres.set(str(sumbin(varbin1.get(),varbin2.get())))
+        conver.set('')
+        conver2.set('')
+        varres2.set('')
 def restar():
-    varres.set(str(restabin(varbin1.get(),varbin2.get())))
-    conver.set('')
-    conver2.set('')
-    varres2.set('')
+    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+        varres.set("ERROR")
+    else:
+        varres.set(str(restabin(varbin1.get(),varbin2.get())))
+        conver.set('')
+        conver2.set('')
+        varres2.set('')
 def multiplicar():
-    varres.set(str(mbin(varbin1.get(),varbin2.get())))
-    conver.set('')
-    conver2.set('')
-    varres2.set('')
+    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+        varres.set("ERROR")
+    else:
+        varres.set(str(mbin(varbin1.get(),varbin2.get())))
+        conver.set('')
+        conver2.set('')
+        varres2.set('')
 def dividir():
-    E=dbinent(varbin1.get(),varbin2.get())
-    varres.set(str(E[0]))
-    varres2.set(str(E[1]))
-    conver.set('')
-    conver2.set('')
+    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+        varres.set("ERROR")
+    else:
+        E=dbinent(varbin1.get(),varbin2.get())
+        varres.set(str(E[0]))
+        varres2.set(str(E[1]))
+        conver.set('')
+        conver2.set('')
 def limpiar():
     varres.set('')
     varres2.set('')
@@ -358,9 +315,10 @@ def limpiar():
     varbin2.set('')
     conver.set('')
     conver2.set('')
-####################
-# Salida convertida
-####################
+
+"""
+Salida convertida a un sistema seleccionado 
+"""
 
 def entrada3(): 
     E3=selec3.get()
@@ -378,11 +336,9 @@ def entrada3():
         conver.set(str(bin_a_hex(varres.get())))
         conver2.set(str(bin_a_hex(varres2.get())))
 
-########################################
-## Interfaz
-########################################
-from tkinter import*
-import tkinter as tk
+"""
+interfaz
+"""
 ventana = Frame(height=480,width=280)
 ventana.pack(padx=10,pady=10)
 ventana.configure(background="#CD6155")
