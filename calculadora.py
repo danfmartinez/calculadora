@@ -37,8 +37,8 @@ def comp1(y1) -> str:
 Funciones de binario a otro sistema 
 """
 # binario a decimal
-def bina_a_decim(y) -> int: 
-    y=str(y)
+def bina_a_decim(binario: int) -> int: 
+    y=str(binario)
     y1=0
     l=len(y)-1    
     for i in range(len(y)):
@@ -47,36 +47,69 @@ def bina_a_decim(y) -> int:
     return y1
 
 # binario a octal
-def bin_a_oct(n) -> int:
-    n=str(n)
-    dec=int(n,2)
-    octa=oct(dec).split('o')[1]
-    return (octa)
+def bin_a_oct(bina: int) -> int:
+    dict_bin_oct = {"000":"0", "001":"1", "010":"2", "011":"3", "100":"4", "101":"5", "110":"6","111":"7"}
+    NumList = str(bina)
+    while len(NumList) % 3 != 0:
+        A0 = "0"
+        A0 += NumList
+        NumList = A0
+    
+    NumOct = []    
+    NumList = list(NumList)
+    for i in range(0,len(NumList),3):
+         num = NumList[i] + NumList[i+1] + NumList[i+2]
+         NumOct.append(dict_bin_oct[num]) 
+    if len(NumOct) !=1 :
+        octal = ""
+        for i in NumOct:
+            octal += i
+    else:
+        octal = NumOct[0]
+    octal = int(octal)
+    return octal
 
 # binario a hexa
-def bin_a_hex(y1) -> int:
-    y1=str(y1)
-    dec=int(y1,2)
-    hexa=hex(dec).split('x')[1]
-    return hexa
+def bin_a_hex(bina: int) -> str:
+    dict_bin_hexa = {"0000":"0", "0001":"1", "0010":"2", "0011":"3", "0100":"4", "0101":"5",
+                    "0110":"6","0111":"7", "1000": "8", "1001":"9", "1010":"A","1011":"B", 
+                    "1100":"C", "1101":"D", "1110":"E", "1111":"F"}
+    NumList = str(bina)
+    while len(NumList) % 4 != 0:
+        A0 = "0"
+        A0 += NumList
+        NumList = A0
+    
+    NumHexa = []    
+    NumList = list(NumList)
+    for i in range(0,len(NumList), 4):
+         num = NumList[i] + NumList[i+1] + NumList[i+2] + NumList[i+3]
+         NumHexa.append(dict_bin_hexa[num]) 
+    if len(NumHexa) !=1 :
+        Hexa = ""
+        for i in NumHexa:
+            Hexa += i
+    else:
+        Hexa = NumHexa[0]
+    
+    return Hexa
 
 """
 Funciones de otro sistema a binario
 """
 # de decimal a binario
-def dec_a_bin (decimal: int) -> str:
+def dec_a_bin (decimal: int) -> int:
     binario=''
     while decimal // 2 !=0:
         binario=str(decimal % 2) + binario
         decimal= decimal // 2
-    return str(decimal) + binario 
+    return int ( str(decimal) + binario) 
 
 # de octal a binario
-def octal_a_bin(octal: str) -> int:
+def octal_a_bin(octal: int) -> int:
     dictoct2bin = {'0':'000','1':'001','2':'010','3':'011','4':'100','5':'101','6':'110','7':'111'}
     Numbin = []
-    Num = str(octal)
-    Nlist = list(Num)
+    Nlist = list(str(octal))
     for i in Nlist:
         Numbin.append(dictoct2bin[i])
     if len(Numbin) != 1:
@@ -99,11 +132,10 @@ def octal_a_bin(octal: str) -> int:
 #de hexa a binario
 def hex_a_bin(hexa: str) -> int:
     dicthex2bin = {'0':'0000','1':'0001','2':'0010','3':'0011','4':'0100','5':'0101','6':'0110',
-                   '7':'0111','8':'1000','9':'1001','a':'1010','b':'1011','c':'1100',
-                   'd':'1101','e':'1110','f':'1111'}
+                   '7':'0111','8':'1000','9':'1001','A':'1010','B':'1011','C':'1100',
+                   'D':'1101','E':'1110','F':'1111'}
     Numbin = []
-    Num = str(hexa)
-    Nlist = list(Num)
+    Nlist = list(hexa)
     for i in Nlist:
         Numbin.append(dicthex2bin[i])
     if len(Numbin) != 1:
@@ -233,13 +265,13 @@ def entrada1():
     num1 = vartxt1.get()
     convertido = 0
     if E1 == 1: # decimal a binario
-        convertido = int(dec_a_bin( int (num1) ))
+        convertido = dec_a_bin(int(num1))
     
     if E1 == 2: # binario a binario
         convertido = num1   
     
     if E1 == 3: # octal a binario
-        convertido = octal_a_bin(num1)
+        convertido = octal_a_bin(int(num1))
     
     if E1 == 4: # hexadecimal binario
         convertido = hex_a_bin(num1)
@@ -254,13 +286,13 @@ def entrada2():
     num2= vartxt2.get()
     convertido2 = 0
     if E2 == 1: # decimal a binario
-        convertido2 = int(dec_a_bin(int (num2) ))
+        convertido2 = dec_a_bin(int (num2) )
     
     if E2 == 2: # binario a binario
         convertido2 = num2   
     
     if E2 == 3: # octal a binario
-        convertido2 = octal_a_bin(num2)
+        convertido2 = octal_a_bin(int(num2))
     
     if E2 == 4: # hexadecimal binario
         convertido2 = hex_a_bin(num2)
@@ -325,16 +357,20 @@ def entrada3():
     
     if  E3 == 2:
         conver.set(str(varres.get()))
-        conver2.set(str(varres2.get()))
+        if varres2.get() != "":
+            conver2.set(str(varres2.get()))
     elif E3 == 1:
         conver.set(str(bina_a_decim(varres.get())))
-        conver2.set(str(bina_a_decim(varres2.get())))
+        if varres2.get() != "":
+            conver2.set(str(bina_a_decim(varres2.get())))
     elif E3 == 3:
         conver.set(str(bin_a_oct(varres.get())))
-        conver2.set(str(bin_a_oct(varres2.get())))
+        if varres2.get() != "":
+            conver2.set(str(bin_a_oct(varres2.get())))
     elif E3 == 4:
         conver.set(str(bin_a_hex(varres.get())))
-        conver2.set(str(bin_a_hex(varres2.get())))
+        if varres2.get() != "":
+            conver2.set(str(bin_a_hex(varres2.get())))
 
 """
 interfaz
