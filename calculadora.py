@@ -282,7 +282,7 @@ def entrada1():
         varbin1.set("ERROR")    
 
 def entrada2():
-    E2 = selec.get()
+    E2 = selec2.get()
     num2= vartxt2.get()
     convertido2 = 0
     if E2 == 1: # decimal a binario
