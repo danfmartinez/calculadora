@@ -274,7 +274,7 @@ def entrada1():
         convertido = octal_a_bin(int(num1))
     
     if E1 == 4: # hexadecimal binario
-        convertido = hex_a_bin(num1)
+        convertido = hex_a_bin(num1.upper())
     
     if convertido < maximo:
         varbin1.set(convertido)
@@ -295,7 +295,7 @@ def entrada2():
         convertido2 = octal_a_bin(int(num2))
     
     if E2 == 4: # hexadecimal binario
-        convertido2 = hex_a_bin(num2)
+        convertido2 = hex_a_bin(num2.upper())
 
     if convertido2 < maximo:
         varbin2.set(convertido2)
@@ -385,19 +385,19 @@ vartxt2=StringVar() #entrada 2
 txt2= Entry(ventana,textvariable=vartxt2).place(x=150,y=10)
 
 varbin1=StringVar()  #binario 1
-txtb1= Entry(ventana,textvariable=varbin1).place(x=10,y=110)
+txtb1= Entry(ventana,textvariable=varbin1, state=DISABLED).place(x=10,y=110)
 varbin2=StringVar()   #binario 2
-txtb2= Entry(ventana,textvariable=varbin2).place(x=150,y=110)
+txtb2= Entry(ventana,textvariable=varbin2, state=DISABLED).place(x=150,y=110)
 
 
 varres=StringVar() # respuesta en binario
-txtres= Entry(ventana,textvariable=varres,width=42).place(x=10,y=295)
+txtres= Entry(ventana,textvariable=varres,width=42, state=DISABLED).place(x=10,y=295)
 varres2=StringVar() # respuesta en binario DECIMALES
-txtres2= Entry(ventana,textvariable=varres2,width=23).place(x=120,y=315)
+txtres2= Entry(ventana,textvariable=varres2,width=23, state=DISABLED).place(x=120,y=315)
 conver=StringVar() # respuesta convertida
-txconver= Entry(ventana,textvariable=conver,width=42).place(x=10,y=430)
+txconver= Entry(ventana,textvariable=conver,width=42, state=DISABLED).place(x=10,y=430)
 conver2=StringVar() # respuesta convertida DECIMALES
-txconver2= Entry(ventana,textvariable=conver2,width=23).place(x=120,y=450)
+txconver2= Entry(ventana,textvariable=conver2,width=23, state=DISABLED).place(x=120,y=450)
 
 
 bsum = Button(ventana,command=sumar,text='Sumar',padx=42,pady=5,background="#D5D8DC").place(x=10,y=150) #boton suma
