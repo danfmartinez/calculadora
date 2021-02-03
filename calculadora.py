@@ -155,6 +155,14 @@ def hex_a_bin(hexa: str) -> int:
         l=l-1
     return binario 
    
+# confirmar numero binario
+def confirmar_bin (binario: int) -> bool:
+    num_list = list (str(binario))
+    for i in num_list:
+        if i != "0" and i != "1":
+            return False
+    return True    
+                
 """
 Funciones de operaciones entre binarios
 """
@@ -243,7 +251,7 @@ def dbinent(y1,y2) -> str:
     
     c='0'
     if int(y2) == 0:
-        return ('Indeterminación',0)
+        return ('INDETERMINACION',"")
     while int(y1) >= int(y2):
         y1 = restabin(y1,y2)
         c = sumbin(c,'1')
@@ -259,54 +267,67 @@ def dbinent(y1,y2) -> str:
 Entradas y salidas de la interfaz
 """
 
-maximo =  11000011010100000 # numero maximo soportado (cien mil) en binario
 def entrada1():
+    maximo =  11000011010100000 # numero maximo soportado (cien mil) en binario
     E1 = selec.get()
     num1 = vartxt1.get()
     convertido = 0
-    if E1 == 1: # decimal a binario
-        convertido = dec_a_bin(int(num1))
-    
-    if E1 == 2: # binario a binario
-        convertido = num1   
-    
-    if E1 == 3: # octal a binario
-        convertido = octal_a_bin(int(num1))
-    
-    if E1 == 4: # hexadecimal binario
-        convertido = hex_a_bin(num1.upper())
-    
-    if convertido < maximo:
-        varbin1.set(convertido)
-    else:
-        varbin1.set("ERROR")    
-
+    try:
+        if E1 == 1: # decimal a binario
+            convertido = dec_a_bin(int(num1))
+        
+        elif E1 == 2: # binario a binario
+            confirmar = confirmar_bin(int(num1))
+            if confirmar == True:
+                convertido = int(num1)
+            else:
+                raise
+        
+        elif E1 == 3: # octal a binario
+            convertido = octal_a_bin(int(num1))
+        
+        elif E1 == 4: # hexadecimal binario
+            convertido = hex_a_bin(num1.upper())
+        
+        if convertido < maximo:
+            varbin1.set(convertido)
+        else:
+            varbin1.set("math ERROR")    
+    except:
+        varbin1.set("syntx ERROR")
+        
 def entrada2():
+    maximo2 =  11000011010100000 # numero maximo soportado (cien mil) en binario
     E2 = selec2.get()
     num2= vartxt2.get()
     convertido2 = 0
-    if E2 == 1: # decimal a binario
-        convertido2 = dec_a_bin(int (num2) )
+    try:
+        if E2 == 1: # decimal a binario
+            convertido2 = dec_a_bin(int (num2) )
+        
+        elif E2 == 2: # binario a binario
+            confirmar = confirmar_bin(int(num2))
+            if confirmar == True:
+                convertido = int(num2)
+            else:
+                raise
+        elif E2 == 3: # octal a binario
+            convertido2 = octal_a_bin(int(num2))
+        
+        elif E2 == 4: # hexadecimal binario
+            convertido2 = hex_a_bin(num2.upper())
     
-    if E2 == 2: # binario a binario
-        convertido2 = num2   
-    
-    if E2 == 3: # octal a binario
-        convertido2 = octal_a_bin(int(num2))
-    
-    if E2 == 4: # hexadecimal binario
-        convertido2 = hex_a_bin(num2.upper())
-
-    if convertido2 < maximo:
-        varbin2.set(convertido2)
-    else:
-        varbin2.set("ERROR")
-
+        if convertido2 < maximo2:
+            varbin2.set(convertido2)
+        else:
+            varbin2.set("math ERROR")
+    except: 
+        varbin2.set("syntx ERROR")
 """
 operaciones
 """
 def sumar():
-    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
         varres.set("ERROR")
     else :    
         varres.set(str(sumbin(varbin1.get(),varbin2.get())))
@@ -314,7 +335,7 @@ def sumar():
         conver2.set('')
         varres2.set('')
 def restar():
-    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
         varres.set("ERROR")
     else:
         varres.set(str(restabin(varbin1.get(),varbin2.get())))
@@ -322,7 +343,7 @@ def restar():
         conver2.set('')
         varres2.set('')
 def multiplicar():
-    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
         varres.set("ERROR")
     else:
         varres.set(str(mbin(varbin1.get(),varbin2.get())))
@@ -330,7 +351,7 @@ def multiplicar():
         conver2.set('')
         varres2.set('')
 def dividir():
-    if (varbin1.get() == "ERROR" or varbin1.get() == "ERROR"):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get()):
         varres.set("ERROR")
     else:
         E=dbinent(varbin1.get(),varbin2.get())
@@ -354,23 +375,25 @@ Salida convertida a un sistema seleccionado
 
 def entrada3(): 
     E3=selec3.get()
-    
-    if  E3 == 2:
-        conver.set(str(varres.get()))
-        if varres2.get() != "":
-            conver2.set(str(varres2.get()))
-    elif E3 == 1:
-        conver.set(str(bina_a_decim(varres.get())))
-        if varres2.get() != "":
-            conver2.set(str(bina_a_decim(varres2.get())))
-    elif E3 == 3:
-        conver.set(str(bin_a_oct(varres.get())))
-        if varres2.get() != "":
-            conver2.set(str(bin_a_oct(varres2.get())))
-    elif E3 == 4:
-        conver.set(str(bin_a_hex(varres.get())))
-        if varres2.get() != "":
-            conver2.set(str(bin_a_hex(varres2.get())))
+    if "ERROR" in varres.get():
+        conver.set("ERROR")
+    else:
+        if  E3 == 2:
+            conver.set(str(varres.get()))
+            if varres2.get() != "":
+                conver2.set(str(varres2.get()))
+        elif E3 == 1:
+            conver.set(str(bina_a_decim(varres.get())))
+            if varres2.get() != "":
+                conver2.set(str(bina_a_decim(varres2.get())))
+        elif E3 == 3:
+            conver.set(str(bin_a_oct(varres.get())))
+            if varres2.get() != "":
+                conver2.set(str(bin_a_oct(varres2.get())))
+        elif E3 == 4:
+            conver.set(str(bin_a_hex(varres.get())))
+            if varres2.get() != "":
+                conver2.set(str(bin_a_hex(varres2.get())))       
 
 """
 interfaz
