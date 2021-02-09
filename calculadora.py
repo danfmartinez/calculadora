@@ -281,7 +281,7 @@ def entrada1():
             if confirmar == True:
                 convertido = int(num1)
             else:
-                raise
+                raise Exception
         
         elif E1 == 3: # octal a binario
             convertido = octal_a_bin(int(num1))
@@ -310,7 +310,7 @@ def entrada2():
             if confirmar == True:
                 convertido = int(num2)
             else:
-                raise
+                raise Exception
         elif E2 == 3: # octal a binario
             convertido2 = octal_a_bin(int(num2))
         
