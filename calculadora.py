@@ -8,10 +8,8 @@ import tkinter as tk
 """
 Igualar
 """
-def igualar(y1,y2) -> tuple:                                             
-    y1=str(y1)
-    y2=str(y2)
-    while len(y1) != len(y2):
+def igualar(y1:str,y2:str) -> tuple:       
+    while len(str(y1)) != len(str(y2)):
         if len(y1) < len(y2):
             x0 = '0'
             x0 += y1
@@ -25,7 +23,7 @@ def igualar(y1,y2) -> tuple:
 """
 Complemento A1
 """
-def comp1(y1) -> str:                             
+def comp1(y1:str) -> str:                             
     c = ''
     for i in range(len(y1)):
         if y1[i] == '0':
@@ -37,17 +35,16 @@ def comp1(y1) -> str:
 Funciones de binario a otro sistema 
 """
 # binario a decimal
-def bina_a_decim(binario: int) -> int: 
-    y=str(binario)
-    y1=0
-    l=len(y)-1    
-    for i in range(len(y)):
-        y1+=int(y[i])*2**l
-        l=l-1
-    return y1
+def bina_a_decim(binario: str) -> str: 
+    decimal = 0
+    L = len(binario)-1    
+    for i in range(0, len(binario)):
+        decimal += int(binario[i])*2**L
+        L = L-1
+    return str(decimal)
 
 # binario a octal
-def bin_a_oct(bina: int) -> int:
+def bin_a_oct(bina: str) -> str:
     dict_bin_oct = {"000":"0", "001":"1", "010":"2", "011":"3", "100":"4", "101":"5", "110":"6","111":"7"}
     NumList = str(bina)
     while len(NumList) % 3 != 0:
@@ -60,17 +57,17 @@ def bin_a_oct(bina: int) -> int:
     for i in range(0,len(NumList),3):
          num = NumList[i] + NumList[i+1] + NumList[i+2]
          NumOct.append(dict_bin_oct[num]) 
-    if len(NumOct) !=1 :
+    if len(NumOct) != 1 :
         octal = ""
         for i in NumOct:
             octal += i
     else:
         octal = NumOct[0]
-    octal = int(octal)
+    
     return octal
 
 # binario a hexa
-def bin_a_hex(bina: int) -> str:
+def bin_a_hex(bina: str) -> str:
     dict_bin_hexa = {"0000":"0", "0001":"1", "0010":"2", "0011":"3", "0100":"4", "0101":"5",
                     "0110":"6","0111":"7", "1000": "8", "1001":"9", "1010":"A","1011":"B", 
                     "1100":"C", "1101":"D", "1110":"E", "1111":"F"}
@@ -98,15 +95,16 @@ def bin_a_hex(bina: int) -> str:
 Funciones de otro sistema a binario
 """
 # de decimal a binario
-def dec_a_bin (decimal: int) -> int:
+def dec_a_bin (decimal: str) -> str:
     binario=''
+    decimal = int (decimal)
     while decimal // 2 !=0:
         binario=str(decimal % 2) + binario
         decimal= decimal // 2
-    return int ( str(decimal) + binario) 
+    return  str(decimal) + binario 
 
 # de octal a binario
-def octal_a_bin(octal: int) -> int:
+def octal_a_bin(octal: str) -> str:
     dictoct2bin = {'0':'000','1':'001','2':'010','3':'011','4':'100','5':'101','6':'110','7':'111'}
     Numbin = []
     Nlist = list(str(octal))
@@ -120,17 +118,15 @@ def octal_a_bin(octal: int) -> int:
         Nbb = str(Numbin[0])
         
     Numbin = list(Nbb)
-    for i in range(0,len(Numbin)):
-        Numbin[i] = int(Numbin[i])
     binario=0
     l=len(Numbin)-1    
-    for i in range(len(Numbin)):
+    for i in range(0,len(Numbin)):
         binario += int(Numbin[i])*10**l
         l=l-1
-    return binario
+    return str(binario)
 
 #de hexa a binario
-def hex_a_bin(hexa: str) -> int:
+def hex_a_bin(hexa: str) -> str:
     dicthex2bin = {'0':'0000','1':'0001','2':'0010','3':'0011','4':'0100','5':'0101','6':'0110',
                    '7':'0111','8':'1000','9':'1001','A':'1010','B':'1011','C':'1100',
                    'D':'1101','E':'1110','F':'1111'}
@@ -146,18 +142,16 @@ def hex_a_bin(hexa: str) -> int:
         Nbb = str(Numbin[0])
         
     Numbin = list(Nbb)
-    for i in range(0,len(Numbin)):
-        Numbin[i] = int(Numbin[i])
     binario=0
     l=len(Numbin)-1    
-    for i in range(len(Numbin)):
+    for i in range(0,len(Numbin)):
         binario += int(Numbin[i])*10**l
         l=l-1
-    return binario 
+    return str(binario) 
    
 # confirmar numero binario
-def confirmar_bin (binario: int) -> bool:
-    num_list = list (str(binario))
+def confirmar_bin (binario: str) -> bool:
+    num_list = list (binario)
     for i in num_list:
         if i != "0" and i != "1":
             return False
@@ -168,7 +162,7 @@ Funciones de operaciones entre binarios
 """
 
 #Suma
-def sumbin(n,m) -> str:                          
+def sumbin(n:str, m:str) -> str:                          
     z1, z2 = igualar(n,m)
     c = ''
     n = '0'                                    
@@ -198,48 +192,28 @@ def sumbin(n,m) -> str:
     return c
 
 #Resta
-def restabin(a,b) -> str: 
-    x=str(a)
-    y=str(b)
-    if len(x) > len(y):
-        n, m = igualar(a,b)
-        cob = comp1(m)
-        pas2 = sumbin(n,cob)   
-        if len(pas2) == len(n):
-            r = ['1', comp1(pas2)]
-            if int(comp1(pas2)) == 0:
-                r = '0'
-            return r
-        else:
-            r = ''
-            for i in range(len(pas2)): 
-                i = i + 1
-                if i != len(pas2):
-                    r += pas2[i]
-            r = sumbin(r,'1')
-            return r
+def restabin(A1:str, A2:str) -> str: 
+    if int(A1) >= int(A2):
+        B1, B2 = igualar(A1,A2)
     else:
-        m, n = igualar(a,b)
-        cob = comp1(m)
-        pas2 = sumbin(n,cob)   
-        if len(pas2) == len(n):
-            r = ['1', comp1(pas2)]
-            if int(comp1(pas2)) == 0:
-                r = '0'
-            return r
-        else:
-            r = ''
-            s = ''
-            for i in range(len(pas2)): 
-                i = i + 1
-                if i != len(pas2):
-                    r += pas2[i]
-            r = sumbin(r,'1')
-            s = '-'
-            return r
-        
+        B1, B2 = igualar(A2,A1)    
+    
+    paso1 = sumbin(comp1(B2),"1")
+    paso2 = sumbin(B1,paso1)
+    paso3 = ""
+    for i in range(1,len(paso2)):
+        paso3 += paso2[i]
+    
+    paso4 = list(paso3)
+    respuesta = 0
+    L = len(paso4) - 1
+    for i in range(0, len(paso4)):
+        respuesta += int(paso4[i])*10**L
+        L = L-1    
+    return str(respuesta)   
+
 #Multiplicacon
-def mbin(z1,z2) -> str:
+def mbin(z1:str, z2:str) -> str:
     c = '0'
     while int(z2) != 0:
         c = sumbin(c,z1)
@@ -247,8 +221,7 @@ def mbin(z1,z2) -> str:
     return c
 
 #Division
-def dbinent(y1,y2) -> str:
-    
+def dbinent(y1:str ,y2:str) -> tuple:
     c='0'
     if int(y2) == 0:
         return ('INDETERMINACION',"")
@@ -256,7 +229,7 @@ def dbinent(y1,y2) -> str:
         y1 = restabin(y1,y2)
         c = sumbin(c,'1')
 
-    pd=mbin(y1,1100100) #sucecion de restas para decimeales
+    pd= mbin(y1,"1100100") #sucecion de restas para decimales
     w='0'
     while int(pd) >= int(y2):
         pd = restabin(pd,y2)
@@ -268,57 +241,57 @@ Entradas y salidas de la interfaz
 """
 
 def entrada1():
-    maximo =  11000011010100000 # numero maximo soportado (cien mil) en binario
+    maximo = 16 # numero maximo soportado (16 bits)
     E1 = selec.get()
     num1 = vartxt1.get()
-    convertido = 0
+    num_binario = "0"
     try:
         if E1 == 1: # decimal a binario
-            convertido = dec_a_bin(int(num1))
+            num_binario = dec_a_bin(num1)
         
         elif E1 == 2: # binario a binario
-            confirmar = confirmar_bin(int(num1))
+            confirmar = confirmar_bin(num1)
             if confirmar == True:
-                convertido = int(num1)
+                num_binario = num1
             else:
                 raise Exception
         
         elif E1 == 3: # octal a binario
-            convertido = octal_a_bin(int(num1))
+            num_binario = octal_a_bin(num1)
         
         elif E1 == 4: # hexadecimal binario
-            convertido = hex_a_bin(num1.upper())
+            num_binario = hex_a_bin(num1.upper())
         
-        if convertido < maximo:
-            varbin1.set(convertido)
+        if len(num_binario) <= maximo:
+            varbin1.set(num_binario)
         else:
             varbin1.set("math ERROR")    
     except:
         varbin1.set("syntx ERROR")
         
 def entrada2():
-    maximo2 =  11000011010100000 # numero maximo soportado (cien mil) en binario
+    maximo2 = 16 # numero maximo soportado (16 bits)
     E2 = selec2.get()
     num2= vartxt2.get()
-    convertido2 = 0
+    num_binario2 = "0"
     try:
         if E2 == 1: # decimal a binario
-            convertido2 = dec_a_bin(int (num2) )
+            num_binario2 = dec_a_bin(num2)
         
         elif E2 == 2: # binario a binario
-            confirmar = confirmar_bin(int(num2))
+            confirmar = confirmar_bin(num2)
             if confirmar == True:
-                convertido = int(num2)
+                num_binario2 = num2
             else:
                 raise Exception
         elif E2 == 3: # octal a binario
-            convertido2 = octal_a_bin(int(num2))
+            num_binario2 = octal_a_bin(num2)
         
         elif E2 == 4: # hexadecimal binario
-            convertido2 = hex_a_bin(num2.upper())
+            num_binario2 = hex_a_bin(num2.upper())
     
-        if convertido2 < maximo2:
-            varbin2.set(convertido2)
+        if len(num_binario2) <= maximo2:
+            varbin2.set(num_binario2)
         else:
             varbin2.set("math ERROR")
     except: 
@@ -327,31 +300,31 @@ def entrada2():
 operaciones
 """
 def sumar():
-    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() or varbin1.get() == "" or varbin2.get()== ""):
         varres.set("ERROR")
     else :    
-        varres.set(str(sumbin(varbin1.get(),varbin2.get())))
+        varres.set(sumbin(varbin1.get(),varbin2.get()))
         conver.set('')
         conver2.set('')
         varres2.set('')
 def restar():
-    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() or varbin1.get() == "" or varbin2.get()== ""):
         varres.set("ERROR")
     else:
-        varres.set(str(restabin(varbin1.get(),varbin2.get())))
+        varres.set(restabin(varbin1.get(),varbin2.get()))
         conver.set('')
         conver2.set('')
         varres2.set('')
 def multiplicar():
-    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() ):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() or varbin1.get() == "" or varbin2.get()== ""):
         varres.set("ERROR")
     else:
-        varres.set(str(mbin(varbin1.get(),varbin2.get())))
+        varres.set(mbin(varbin1.get(),varbin2.get()))
         conver.set('')
         conver2.set('')
         varres2.set('')
 def dividir():
-    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get()):
+    if ("ERROR" in varbin1.get() or "ERROR" in varbin2.get() or varbin1.get() == "" or varbin2.get()== ""):
         varres.set("ERROR")
     else:
         E=dbinent(varbin1.get(),varbin2.get())
@@ -379,21 +352,21 @@ def entrada3():
         conver.set("ERROR")
     else:
         if  E3 == 2:
-            conver.set(str(varres.get()))
+            conver.set(varres.get())
             if varres2.get() != "":
-                conver2.set(str(varres2.get()))
+                conver2.set(varres2.get())
         elif E3 == 1:
-            conver.set(str(bina_a_decim(varres.get())))
+            conver.set(bina_a_decim(varres.get()))
             if varres2.get() != "":
-                conver2.set(str(bina_a_decim(varres2.get())))
+                conver2.set(bina_a_decim(varres2.get()))
         elif E3 == 3:
-            conver.set(str(bin_a_oct(varres.get())))
+            conver.set(bin_a_oct(varres.get()))
             if varres2.get() != "":
-                conver2.set(str(bin_a_oct(varres2.get())))
+                conver2.set(bin_a_oct(varres2.get()))
         elif E3 == 4:
-            conver.set(str(bin_a_hex(varres.get())))
+            conver.set(bin_a_hex(varres.get()))
             if varres2.get() != "":
-                conver2.set(str(bin_a_hex(varres2.get())))       
+                conver2.set(bin_a_hex(varres2.get()))
 
 """
 interfaz
@@ -416,11 +389,11 @@ txtb2= Entry(ventana,textvariable=varbin2, state=DISABLED).place(x=150,y=110)
 varres=StringVar() # respuesta en binario
 txtres= Entry(ventana,textvariable=varres,width=42, state=DISABLED).place(x=10,y=295)
 varres2=StringVar() # respuesta en binario DECIMALES
-txtres2= Entry(ventana,textvariable=varres2,width=23, state=DISABLED).place(x=120,y=315)
+txtres2= Entry(ventana,textvariable=varres2,width=20, state=DISABLED).place(x=140,y=315)
 conver=StringVar() # respuesta convertida
 txconver= Entry(ventana,textvariable=conver,width=42, state=DISABLED).place(x=10,y=430)
 conver2=StringVar() # respuesta convertida DECIMALES
-txconver2= Entry(ventana,textvariable=conver2,width=23, state=DISABLED).place(x=120,y=450)
+txconver2= Entry(ventana,textvariable=conver2,width=20, state=DISABLED).place(x=140,y=450)
 
 
 bsum = Button(ventana,command=sumar,text='Sumar',padx=42,pady=5,background="#D5D8DC").place(x=10,y=150) #boton suma
@@ -450,9 +423,9 @@ Chex3= Radiobutton(ventana,command=entrada3,text='Hex',fg="white",value=4,variab
 etiqueta2=tk.Label(ventana,text='Resultado en Binario',fg="white",padx=10,pady=5,background="#CD6155").place(x=10,y=265)
 etiqueta3=tk.Label(ventana,text='Elija el sistema al que desea convertir',
                    fg="white",padx=10,pady=5,background="#CD6155").place(x=10,y=355)
-etiqueta4=tk.Label(ventana,text='punto decimal',
+etiqueta4=tk.Label(ventana,text='punto ( . ) decimal',
                    fg="white",padx=10,pady=5,background="#CD6155").place(x=10,y=315)
-etiqueta5=tk.Label(ventana,text='punto decimal',
+etiqueta5=tk.Label(ventana,text='punto ( . ) decimal',
                    fg="white",padx=10,pady=5,background="#CD6155").place(x=10,y=450)
 etiqueta1=tk.Label(ventana,text='Entradas convertidas a binario ',
                    fg="white",padx=10,pady=5,background="#CD6155").place(x=10,y=80)
